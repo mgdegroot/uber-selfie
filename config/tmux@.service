@@ -1,0 +1,41 @@
+# name: tmux@.service
+# description: 
+#   systemd service file for starting tmux session for a user.
+#   Place in /etc/systemd/system/ and start using systemctl start kismet@sniffer.service
+#   and enable autostart using systemctl enable tmux@sniffer.service.
+#
+# depends: 
+#   none
+# author: Marcel de Groot (mg.degroot@openmailbox.org)
+# date: 2017-07-30
+# version: 0.2
+#
+# licence:
+#   This file is part of uber-stick (https://github.com/mgdegroot/uber-selfie/).
+#   Copyright (c) 2017 Marcel de Groot.
+#   
+#   This program is free software: you can redistribute it and/or modify  
+#   it under the terms of the GNU General Public License as published by  
+#   the Free Software Foundation, version 3.
+#   
+#   This program is distributed in the hope that it will be useful, but 
+#   WITHOUT ANY WARRANTY; without even the implied warranty of 
+#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU 
+#   General Public License for more details.
+#   
+#   You should have received a copy of the GNU General Public License 
+#   along with this program. If not, see <http://www.gnu.org/licenses/>.
+#
+
+[Unit]
+Description=Start tmux in detached session
+
+[Service]
+Type=forking
+User=%I
+WorkingDirectory=/mnt/work/sessions/
+ExecStart=/usr/bin/tmux new-session -s %u -d
+ExecStop=/usr/bin/tmux kill-session -t %u
+
+[Install]
+WantedBy=multi-user.target
